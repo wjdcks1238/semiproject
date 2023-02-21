@@ -20,6 +20,7 @@
 			$(".btn.myinfo").on("click", handlerClickBtnMyInfo);
 			
 			
+			
 			function handlerClickBtnLogin() {
 				console.log("로그인");
 				location.href="<%=request.getContextPath()%>/login";
@@ -38,6 +39,7 @@
 			
 			function handlerClickBtnMyInfo() {
 				console.log("내정보");
+				location.href="<%=request.getContextPath() %>/myinfo";
 				
 			}
 		</script>

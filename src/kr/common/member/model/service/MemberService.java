@@ -11,7 +11,6 @@ public class MemberService {
 	public MemberVo login(MemberVo vo) {
 		MemberVo result = null;
 		Connection con = getConnection();
-		System.out.println(vo);
 		result = new MemberDao().login(con, vo);
 		close(con);
 		return result;
@@ -28,6 +27,24 @@ public class MemberService {
 	public int dupIdChk(String id) {
 		Connection con = getConnection();
 		int result = new MemberDao().dupIdChk(con, id);
+		System.out.println(result);
+		return result;
+	}
+	
+	public MemberVo getInfo(String id) {
+		MemberVo result = null;
+		Connection con = getConnection();
+		
+		result = new MemberDao().getInfo(id, con);
+		
+		return result;
+	}
+	
+	public int updateUser(MemberVo vo) {
+		int result = 0;
+		Connection con = getConnection();
+		
+		result = new MemberDao().updateUser(vo, con);
 		System.out.println(result);
 		return result;
 	}

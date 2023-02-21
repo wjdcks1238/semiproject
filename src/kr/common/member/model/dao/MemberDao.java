@@ -25,10 +25,9 @@ public class MemberDao {
 			
 			if(rs.next()) {
 				result = new MemberVo();
-				result.setEmail("email");
-				result.setId("id");
-				result.setName("name");
-				result.setPasswd("passwd");
+				result.setEmail(rs.getString("email"));
+				result.setId(rs.getString("id"));
+				result.setName(rs.getString("name"));
 			}
 			
 		} catch(Exception e) {
@@ -82,6 +81,60 @@ public class MemberDao {
 			close(pstmt);
 			close(rs);
 		}
+		return result;
+	}
+	
+	public MemberVo getInfo(String id, Connection con) {
+		MemberVo result = null;
+		String sql = "select id, name, email from TB_USER";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				result = new MemberVo();
+				result.setId(rs.getString("id"));
+				result.setName(rs.getString("name"));
+				result.setEmail(rs.getString("email"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+			close(con);
+		}
+		return result;
+	}
+	
+	public int updateUser(MemberVo vo, Connection con) {
+		int result = 0;
+		String sql = "update TB_USER set name=?, "
+				+ "passwd=?, "
+				+ "email=? "
+				+ "where id=? ";
+		
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getPasswd());
+			pstmt.setString(3, vo.getEmail());
+			pstmt.setString(4, vo.getId());
+			
+			result = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(con);
+			close(pstmt);
+		}
+		System.out.println(result);
 		return result;
 	}
 }

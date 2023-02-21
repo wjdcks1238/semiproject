@@ -1,4 +1,4 @@
-package kr.common.controller;
+package kr.common.board.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import kr.common.member.model.service.MemberService;
-import kr.common.member.model.vo.MemberVo;
+import kr.common.board.service.BoardService;
+import kr.common.board.vo.BoardVo;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class BoardContentController
  */
-@WebServlet("/login")
-public class LoginController extends HttpServlet {
+@WebServlet("/boardcontent")
+public class BoardContentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public BoardContentController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,28 +30,27 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/board/boardcontent.jsp").forward(request, response);
+		
+		int bid = Integer.parseInt(request.getParameter("id").trim());
+		System.out.println(bid);
+		
+		BoardVo vo = new BoardVo();
+		
+		//vo = new BoardService().getBoardContent(bid);
+		
+		//request.setAttribute("btitle", vo.getTitle());
+		//request.setAttribute("bcontent", vo.getBoardContent());
+		
+		request.getRequestDispatcher("/WEB-INF/view/board/boardcontent.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MemberVo vo = new MemberVo();
-		vo.setId(request.getParameter("id"));
-		vo.setPasswd(request.getParameter("passwd"));
-		
-		System.out.println(vo);
-		MemberVo result = new MemberService().login(vo);
-		System.out.println(result);
-		if(result != null) {
-			System.out.println("로그인");
-			request.getSession().setAttribute("lgnss", result);
-		} else {
-			System.out.println("로그인 실패");
-		}
-		
-		response.sendRedirect(request.getContextPath()+"/");
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

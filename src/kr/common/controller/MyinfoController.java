@@ -1,27 +1,30 @@
 package kr.common.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import kr.common.member.model.service.MemberService;
 import kr.common.member.model.vo.MemberVo;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class MyinfoController
  */
-@WebServlet("/login")
-public class LoginController extends HttpServlet {
+@WebServlet("/myinfo")
+public class MyinfoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public MyinfoController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,28 +33,29 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/myinfo.jsp").forward(request, response);
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MemberVo vo = new MemberVo();
+		
 		vo.setId(request.getParameter("id"));
+		vo.setEmail(request.getParameter("email"));
 		vo.setPasswd(request.getParameter("passwd"));
+		vo.setName(request.getParameter("name"));
 		
 		System.out.println(vo);
-		MemberVo result = new MemberService().login(vo);
-		System.out.println(result);
-		if(result != null) {
-			System.out.println("로그인");
-			request.getSession().setAttribute("lgnss", result);
-		} else {
-			System.out.println("로그인 실패");
-		}
 		
-		response.sendRedirect(request.getContextPath()+"/");
+		int result = new MemberService().updateUser(vo);
+		System.out.println(result);
+		if(result == 1) {
+			response.sendRedirect(request.getContextPath()+"/");
+			System.out.println("정보수정 성공");
+		} else {
+			response.sendRedirect(request.getContextPath()+"/");
+			System.out.println("정보수정 실패");
+		}
 	}
 
 }
