@@ -3,6 +3,7 @@ package kr.common.comment.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import kr.common.comment.vo.CommentVo;
@@ -110,6 +111,54 @@ public class CommentDao {
 			close(rs);
 		}
 		System.out.println(result);
+		return result;
+	}
+
+	public int insertComment(Connection con, CommentVo vo) {
+		int result = 0;
+		String sql = "insert into TB_COMMENT values(?, "
+				+ "(select NVL(max(comment_id), 0)+1 from tb_comment) "
+				+ ", ?, ?, default)";
+		
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, vo.getBoardId());
+			pstmt.setString(2, vo.getUserName());
+			pstmt.setString(3, vo.getCommentContent());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public int deleteComment(Connection con, int boardid, int commid) {
+		int result = 0;
+		String sql="delete TB_COMMENT where BOARD_ID = ? and COMMENT_ID = ?";
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, boardid);
+			pstmt.setInt(2, commid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
 		return result;
 	}
 }

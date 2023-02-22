@@ -31,7 +31,7 @@
 		이메일:
 		<input type="email" value="${lgnss.email }" name="email">
 		<br><br>
-		<button type="submit" disabled = "disabled">수정하기</button>
+		<button type="submit" class="btn submit" disabled = "disabled">수정하기</button>
 		<button type="button" class="btn main">취소</button>
 	</form>
 	</section>

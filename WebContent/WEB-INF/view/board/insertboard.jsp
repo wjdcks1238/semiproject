@@ -12,7 +12,9 @@
 		제목:
 		<input type="text" name="btitle">
 		<br>
-		<textarea rows="5" cols="20" name="bcontent"></textarea>
+		내용:
+		<br>
+		<textarea rows="5" cols="26" name="bcontent"></textarea>
 		<br>
 		<button type="submit">게시글등록</button>
 		<button type="button">취소</button>

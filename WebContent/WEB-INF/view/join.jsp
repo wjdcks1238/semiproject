@@ -25,7 +25,7 @@
 			<br>
 			email:<input type="email" name="email" id="email">
 			<br>
-			<button type="submit" disabled="disabled">회원가입하기</button>
+			<button type="submit" disabled="disabled" class="btn submit">회원가입하기</button>
 			<button type="reset" class="btn reset">양식초기화</button>
 			<button type="button" class="btn main">메인으로</button>
 		</form>
@@ -44,6 +44,7 @@
 		$("#chkPasswd").on("input", chkPasswd);
 		$("#email").on("input", chkEmail);
 		$(".btn.reset").on("click", handlerClickReset);
+		$(".btn.submit").on("click", handlerClickSubmit);
 		
 		function handlerClickReset() {
 			$("button[type=submit]").attr("disabled", "disabled");

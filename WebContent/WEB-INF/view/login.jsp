@@ -12,7 +12,7 @@
 	<section>
 		<form action="login" method="post">
 			<span>ID : </span>
-			<input type="text" name="id">
+			<input type="text" name="id" id="id">
 			<br>
 			<span>패스워드 : </span>
 			<input type="password" name="passwd">
@@ -23,6 +23,12 @@
 	</section>
 	<script>
 		$(".btn.join").on("click", handlerClickBtnJoin);
+		$(".btn.login").on("click", handlerClickBtnLogin);
+		
+		function handlerClickBtnLogin() {
+			let id = $("#id").val();
+			alert(id+"님 환영합니다.");
+		}
 		
 		function handlerClickBtnJoin() {
 			console.log("로그인 -> 회원가입");

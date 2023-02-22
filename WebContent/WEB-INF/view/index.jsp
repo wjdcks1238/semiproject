@@ -32,6 +32,7 @@
 			}
 			
 			function handlerClickBtnLogout() {
+				alert("로그아웃 하셨습니다. 안녕히 가십시오.");
 				console.log("로그아웃");
 				location.href="<%=request.getContextPath()%>/logout";
 				

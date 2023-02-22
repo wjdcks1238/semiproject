@@ -6,7 +6,7 @@
 		<c:choose>
 			<c:when test="${ empty lgnss}">
 				<div>
-					<button type=button class="btn login">로그인</button>
+					<button type="button" class="btn login">로그인</button>
 					<button type="button" class="btn join">회원가입</button>
 				</div>
 			</c:when>

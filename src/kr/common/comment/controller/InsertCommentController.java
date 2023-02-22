@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.common.comment.service.CommentService;
 import kr.common.comment.vo.CommentVo;
 
 /**
@@ -26,16 +27,27 @@ public class InsertCommentController extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	int boardid = Integer.parseInt(request.getParameter("id").trim());
-    	CommentVo vo = new CommentVo();
-    	vo.setBoardId(boardid);
+    	
     }
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CommentVo vo = new CommentVo();
-		System.out.println(vo.getBoardId());
+		int boardid = Integer.parseInt(request.getParameter("id").trim());
+    	CommentVo vo = new CommentVo();
+    	vo.setBoardId(boardid);
+    	vo.setUserName(request.getParameter("uid"));
+    	vo.setCommentContent(request.getParameter("insertcomment"));
+		
+    	int result = new CommentService().insertComment(vo);
+    	
+    	if(result == 1) {
+    		System.out.println("댓글 삽입 성공");
+    		response.sendRedirect(request.getContextPath()+"/boardcontent?id="+vo.getBoardId());
+    	} else {
+    		System.out.println("댓글 삽입 실패");
+    		response.sendRedirect(request.getContextPath()+"/boardcontent?id="+vo.getBoardId());
+    	}
 		
 	}
 

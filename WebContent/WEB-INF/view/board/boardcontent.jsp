@@ -33,26 +33,32 @@
 	<hr>
 	<div>
 	
-		<table>
+		<table style="text-align: center">
 			<c:forEach items="${commentlist }" var="vo" varStatus="s">
 				<tr>
-					<td hidden="hidden">${vo.boardId }</td>
-					<td>${vo.userName }</td>
-					<td>${vo.commentContent }</td>
-					<td>${vo.submitDate }</td>
-					<td><button type="button" class="btn deleteComment">댓글삭제</button></td>
+					<td hidden="hidden" id="bid">${vo.boardId }</td>
+					<td hidden="hidden" id="cid">${vo.commentId }</td>
+					<td>${vo.userName }&nbsp;&nbsp;</td>
+					<td>${vo.commentContent }&nbsp;&nbsp;</td>
+					<td>${vo.submitDate }&nbsp;</td>
+					<c:if test="${lgnss.id eq vo.userName }">
+						<td><a href="<%=request.getContextPath() %>/deletecomment?board=${vo.boardId}&&comment=${vo.commentId}">게시글 삭제</a></td>
+					</c:if>
 				</tr>
 				<c:if test=""></c:if>
 			</c:forEach>
 		</table>
-		<form action="<%=request.getContextPath() %>/insertcomment" method="post">
-			<input type="text" name="uid" value="${lgnss.id }">
-			<textarea rows="4" cols="40" name="insertcomment"></textarea>
-			<button type="submit">댓글 등록</button>
-		</form>
+		<c:if test="${not empty lgnss }">
+			<form action="<%=request.getContextPath() %>/insertcomment?id=${boardid}" method="post">
+				<input type="text" name="uid" value="${lgnss.id }" hidden>
+				<textarea rows="4" cols="40" name="insertcomment"></textarea>
+				<button type="submit">댓글 등록</button>
+			</form>
+		</c:if>
 	</div>
 	
 	<script>
+		$(".btn.deleteComment").on("click", handlerClickBtnCommentDelete);
 		$(".btn.update").on("click", handlerClickBtnUpdate);
 		$(".btn.delete").on("click", handlerClickBtnDelete);
 		$(".btn.main").on("click", handlerClickBtnMain);
@@ -60,7 +66,24 @@
 		$(".btn.join").on("click", handlerClickBtnJoin);
 		$(".btn.logout").on("click", handlerClickBtnLogout);
 		$(".btn.myinfo").on("click", handlerClickBtnMyInfo);
-
+		
+		function handlerClickBtnCommentUpdate() {
+			let open=0;
+			
+			if(open === 0) {
+				open = 1;
+				$("span").removeAttr("hidden");
+			} else {
+				open = 0;
+				$("span").attr("hidden", "hidden");
+			}
+		}
+		
+		function handlerClickBtnCommentDelete() {
+			console.log("댓글삭제");
+			let cid=$("#cid").val();
+			location.href="<%=request.getContextPath() %>/deletecomment?board=${boardid}";
+		}
 		
 		function handlerClickBtnUpdate() {
 			console.log("게시글수정");

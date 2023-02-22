@@ -36,4 +36,24 @@ public class CommentService {
 		
 		return result;
 	}
+	
+	public int insertComment(CommentVo vo) {
+		int result = 0;
+		Connection con = getConnection();
+		
+		result = new CommentDao().insertComment(con, vo);
+		close(con);
+		
+		return result;
+	}
+
+	public int deleteComment(int boardid, int commid) {
+		int result = 0;
+		
+		Connection con = getConnection();
+		
+		result = new CommentDao().deleteComment(con, boardid, commid);
+		
+		return result;
+	}
 }

@@ -120,9 +120,16 @@ select count(*) from tb_comment where BOARD_ID=1;
 -- 댓글 삽입
 insert into TB_COMMENT values(4, (select NVL(max(comment_id), 0)+1 from tb_comment)
     , 'user3', '두번째댓글입니다.', default);
+    
+
+--댓글 삭제
+delete TB_COMMENT where BOARD_ID = 1 and COMMENT_ID = 1;
+
+select * from tb_comment;
+rollback;
 
 --댓글 페이징
 select * from (select rownum rn, tbl_1.*
-    from(select rownum xn, comment_id, USERNAME, COMMENT_CONTENT, SUBMIT_DATE
+    from(select rownum xn, board_id, comment_id, USERNAME, COMMENT_CONTENT, SUBMIT_DATE
         from tb_comment where board_id=1 order by comment_id desc) tbl_1)tbl_2
     where rn between 1 and 5;
