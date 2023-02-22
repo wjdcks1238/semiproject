@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.common.comment.vo.CommentVo;
+
 /**
  * Servlet implementation class InsertCommentController
  */
@@ -21,17 +23,19 @@ public class InsertCommentController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	int boardid = Integer.parseInt(request.getParameter("id").trim());
+    	CommentVo vo = new CommentVo();
+    	vo.setBoardId(boardid);
+    }
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CommentVo vo = new CommentVo();
+		System.out.println(vo.getBoardId());
 		
 	}
 

@@ -76,7 +76,7 @@ public class CommentDao {
 	public ArrayList<CommentVo> getCommentList(Connection con, int srnum, int ernum, int boardid) {
 		ArrayList<CommentVo> result = null;
 		String sql = "select * from (select rownum rn, tbl_1.* "
-				+ "from(select rownum xn, comment_id, USERNAME, COMMENT_CONTENT "
+				+ "from(select rownum xn, board_id, comment_id, USERNAME, COMMENT_CONTENT "
 				+ ", SUBMIT_DATE from tb_comment "
 				+ "where board_id=? order by comment_id desc) tbl_1)tbl_2 "
 				+ "where rn between ? and ?";
@@ -98,6 +98,7 @@ public class CommentDao {
 				vo.setUserName(rs.getString("USERNAME"));
 				vo.setCommentContent(rs.getString("COMMENT_CONTENT"));
 				vo.setSubmitDate(rs.getDate("SUBMIT_DATE"));
+				vo.setBoardId(rs.getInt("BOARD_ID"));
 				System.out.println("vo값 : " + vo);
 				result.add(vo);
 			}

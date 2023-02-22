@@ -36,6 +36,7 @@
 		<table>
 			<c:forEach items="${commentlist }" var="vo" varStatus="s">
 				<tr>
+					<td hidden="hidden">${vo.boardId }</td>
 					<td>${vo.userName }</td>
 					<td>${vo.commentContent }</td>
 					<td>${vo.submitDate }</td>
@@ -44,7 +45,8 @@
 				<c:if test=""></c:if>
 			</c:forEach>
 		</table>
-		<form action="<%=request.getContextPath() %>/insertcomment">
+		<form action="<%=request.getContextPath() %>/insertcomment" method="post">
+			<input type="text" name="uid" value="${lgnss.id }">
 			<textarea rows="4" cols="40" name="insertcomment"></textarea>
 			<button type="submit">댓글 등록</button>
 		</form>
@@ -58,12 +60,7 @@
 		$(".btn.join").on("click", handlerClickBtnJoin);
 		$(".btn.logout").on("click", handlerClickBtnLogout);
 		$(".btn.myinfo").on("click", handlerClickBtnMyInfo);
-		$(".btn.deleteComment").on("click", handlerClickBtnDeleteComment);
-		
-		function handlerClickBtnDeleteComment {
-			console.log("댓글삭제");
-			location.href="<%=request.getContextPath() %>/deletecomment?id=";
-		}
+
 		
 		function handlerClickBtnUpdate() {
 			console.log("게시글수정");
