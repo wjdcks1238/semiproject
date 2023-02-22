@@ -4,6 +4,8 @@ import java.sql.Connection;
 
 import static kr.common.jdbc.JDBCTemplate.*;
 
+import kr.common.board.dao.BoardDao;
+import kr.common.board.vo.BoardVo;
 import kr.common.member.model.dao.MemberDao;
 import kr.common.member.model.vo.MemberVo;
 

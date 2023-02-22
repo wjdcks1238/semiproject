@@ -54,13 +54,42 @@ public class BoardService {
 	}
 	
 	public BoardVo getBoardContent(int boardId) {
-		BoardVo result = null;
-		
+		System.out.println(boardId);
+		BoardVo result = new BoardVo();
 		Connection con = getConnection();
 		
 		this.updateReadCount(boardId, con);
+		con = getConnection();
 		
 		result = new BoardDao().getBoardContent(boardId, con);
+		
+		
+		return result;
+	}
+
+	public BoardVo getUpdateBoardContent(int boardid) {
+		BoardVo result = new BoardVo();
+		Connection con = getConnection();
+		
+		result = new BoardDao().getBoardContent(boardid, con);
+		
+		return result;
+	}
+	
+	public int updateBoardContent(BoardVo vo) {
+		int result = 0;
+		Connection con = getConnection();
+		
+		result = new BoardDao().updateBoardContent(vo, con);
+		
+		return result;
+	}
+
+	public int deleteContent(int boardid) {
+		int result = 0;
+		Connection con = getConnection();
+		
+		result = new BoardDao().deleteContent(boardid, con);
 		
 		return result;
 	}

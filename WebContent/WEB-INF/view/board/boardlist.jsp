@@ -23,7 +23,9 @@
 		</c:forEach>
 	</table>
 	<br>
-	<a href="<%=request.getContextPath() %>/insertboard">게시글작성</a>
+	<c:if test="${not empty lgnss }">
+		<button type="button" class="btn insertBoard">게시글 작성</button>
+	</c:if>
 	<br>
 	<div>
 		<c:if test="${startPageNum > 1 }">
@@ -44,3 +46,11 @@
 		</c:if>
 	</div>
 </section>
+<script>
+	$(".btn.insertBoard").on("click", handlerClickInsertBoard);
+	
+	function handlerClickInsertBoard() {
+		console.log("게시판작성");
+		location.href="<%=request.getContextPath() %>/insertboard";
+	}
+</script>

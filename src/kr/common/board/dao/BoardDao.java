@@ -137,7 +137,15 @@ public class BoardDao {
 	}
 	
 	public BoardVo getBoardContent(int boardId, Connection con) {
+		System.out.println(boardId);
 		BoardVo result = null;
+//		------------- -------- -------------- 
+//		BOARD_ID      NOT NULL NUMBER         
+//		TITLE         NOT NULL VARCHAR2(100)  
+//		BOARD_USER             VARCHAR2(20)   
+//		SUBMIT_DATE            DATE           
+//		BOARD_CONTENT NOT NULL VARCHAR2(4000) 
+//		READ_COUNT    NOT NULL NUMBER
 		
 		String sql = "select title, board_user, submit_date "
 				+ ", board_content, read_count "
@@ -150,21 +158,24 @@ public class BoardDao {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, boardId);
 			rs=pstmt.executeQuery();
-			
 			result = new BoardVo();
 			
 			while(rs.next()) {
+				result = new BoardVo();
 				result.setBoardContent(rs.getString("BOARD_CONTENT"));
 				result.setTitle(rs.getString("TITLE"));
 				result.setBoardUser(rs.getString("BOARD_USER"));
 				result.setSubmitDate(rs.getDate("SUBMIT_DATE"));
-				result.setReadCount(rs.getInt("BOARD_CONTENT"));
+				result.setReadCount(rs.getInt("READ_COUNT"));
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+			close(con);
 		}
-		
 		return result;
 	}
 	
@@ -185,6 +196,50 @@ public class BoardDao {
 		} finally {
 			close(con);
 			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateBoardContent(BoardVo vo, Connection con) {
+		int result = 0;
+		String sql = "update tb_board set title=? "
+				+ ", BOARD_CONTENT=? where BOARD_ID=?";
+		
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getBoardContent());
+			pstmt.setInt(3, vo.getBoardId());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+		return result;
+	}
+
+	public int deleteContent(int boardid, Connection con) {
+		int result = 0;
+		String sql = "delete TB_BOARD where board_id=?";
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, boardid);
+			
+			result = pstmt.executeUpdate();
+		} catch(Exception e) {
+			
+		} finally {
+			close(pstmt);
+			close(con);
 		}
 		
 		return result;
