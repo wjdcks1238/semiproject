@@ -13,6 +13,7 @@ import javax.servlet.jsp.PageContext;
 
 import kr.common.board.service.BoardService;
 import kr.common.board.vo.BoardVo;
+import kr.common.comment.service.CommentService;
 
 /**
  * Servlet implementation class BoardContentController
@@ -20,6 +21,7 @@ import kr.common.board.vo.BoardVo;
 @WebServlet("/boardcontent")
 public class BoardContentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public CommentService service = new CommentService();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,7 +38,7 @@ public class BoardContentController extends HttpServlet {
 		int boardid = Integer.parseInt(request.getParameter("id").trim());
 		System.out.println(boardid);
 		
-		BoardVo vo = new BoardVo();
+		BoardVo vo = new BoardVo(); 
 		
 		vo = new BoardService().getBoardContent(boardid);
 		
@@ -54,6 +56,54 @@ public class BoardContentController extends HttpServlet {
 		request.setAttribute("readcount", readCount);
 		request.setAttribute("buser", buser);
 		request.setAttribute("boardid", boardid);
+		
+		//댓글란
+		String pg = request.getParameter("pg");
+		int cnt = 0;
+		System.out.println("게시글 번호 : " + boardid);
+		cnt = service.getCountComment(boardid);
+		
+		int pageSize = 5;
+		
+		int pageBlock = 5;
+		
+		int currentPage = 1;
+		
+		try {
+			currentPage = Integer.parseInt(pg);
+		} catch(Exception e) {
+			
+		}
+		
+		int startRnum = 0;
+		int endRnum = 0;
+		
+		startRnum = ((currentPage -1) * pageSize) + 1;
+		endRnum = (startRnum + pageSize -1 > cnt)? cnt : startRnum + pageSize - 1;
+		
+		System.out.println("시작 : " + startRnum +"끝 : " + endRnum + " id"+ boardid);
+		request.setAttribute("commentlist", service.getCommentList(startRnum, endRnum, boardid));
+		
+		int startPageNum = 0;
+		int endPageNum = 0;
+		
+		startPageNum = (currentPage % pageBlock == 0)
+				? ((currentPage/pageBlock -1) * pageBlock + 1)
+				: ((currentPage/pageBlock) * pageBlock + 1);
+		int pageCnt = (cnt/pageSize);
+		
+		if(cnt%pageSize != 0) {
+			pageCnt++;
+		}
+		
+		endPageNum = (startPageNum + pageBlock -1 > pageCnt) ? pageCnt : startPageNum + pageBlock -1;
+		
+		request.setAttribute("startPageNum", startPageNum);
+		request.setAttribute("endPageNum", endPageNum);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("pageCnt", pageCnt);
+		
+		
 		
 		
 		request.getRequestDispatcher("/WEB-INF/view/board/boardcontent.jsp").forward(request, response);

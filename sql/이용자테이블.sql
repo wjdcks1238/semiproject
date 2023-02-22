@@ -77,3 +77,52 @@ select title, board_user, submit_date, board_content, read_count from tb_board w
 
 --게시글 클릭시, 게시글 본문 들어감과 동시에 조회수 +1
 update tb_board set read_count = read_count + 1 where board_id=10;
+
+select title, board_user, submit_date , board_content, read_count from tb_board where board_id=11;
+
+--게시물 수정
+update tb_board set title='2323', BOARD_CONTENT='232323' where BOARD_ID=11;
+rollback;
+select * from TB_BOARD;
+
+--게시글 삭제
+delete TB_BOARD where board_id=11;
+
+--댓글 테이블 관련
+--댓글 테이블
+drop table tb_comment;
+create table tb_comment(
+      board_id number not null
+    , comment_id number primary key
+    , username varchar2(20) not null
+    , comment_content varchar2(1000) not null
+    , submit_date date default sysdate
+    , CONSTRAINT fk_board_id FOREIGN KEY (board_id) REFERENCES tb_board(board_id)
+    , constraint fk_username foreign key (username) references tb_user(id)
+);
+
+desc TB_COMMENT;
+
+select * from tb_comment;
+
+select NVL(max(comment_id), 0)+1 from tb_comment;
+
+--특정 게시물에 대한 댓글 호출
+select username, comment_content, submit_date
+    from TB_COMMENT where board_id=1
+    order by COMMENT_ID desc;
+    
+--특정 게시물에 대한 댓글의 갯수 확인
+select count(*) from tb_comment where BOARD_ID=1;
+
+select count(*) from tb_comment where BOARD_ID=1;
+
+-- 댓글 삽입
+insert into TB_COMMENT values(4, (select NVL(max(comment_id), 0)+1 from tb_comment)
+    , 'user3', '두번째댓글입니다.', default);
+
+--댓글 페이징
+select * from (select rownum rn, tbl_1.*
+    from(select rownum xn, comment_id, USERNAME, COMMENT_CONTENT, SUBMIT_DATE
+        from tb_comment where board_id=1 order by comment_id desc) tbl_1)tbl_2
+    where rn between 1 and 5;

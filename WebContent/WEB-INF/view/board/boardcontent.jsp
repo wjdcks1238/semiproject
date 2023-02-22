@@ -10,6 +10,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/view/header.jsp" />
+	<div>
 		제목:
 		<input type="text" name="btitle" value="${btitle }" disabled style="border-style: none; background-color: #ffffff">
 		작성자:
@@ -26,6 +27,28 @@
 			<button type="button" class="btn delete">게시글삭제</button>
 		</c:if>
 		<button type="button" class="btn main">메인화면으로</button>
+	</div>
+	<hr>
+	댓글
+	<hr>
+	<div>
+	
+		<table>
+			<c:forEach items="${commentlist }" var="vo" varStatus="s">
+				<tr>
+					<td>${vo.userName }</td>
+					<td>${vo.commentContent }</td>
+					<td>${vo.submitDate }</td>
+					<td><button type="button" class="btn deleteComment">댓글삭제</button></td>
+				</tr>
+				<c:if test=""></c:if>
+			</c:forEach>
+		</table>
+		<form action="<%=request.getContextPath() %>/insertcomment">
+			<textarea rows="4" cols="40" name="insertcomment"></textarea>
+			<button type="submit">댓글 등록</button>
+		</form>
+	</div>
 	
 	<script>
 		$(".btn.update").on("click", handlerClickBtnUpdate);
@@ -35,6 +58,12 @@
 		$(".btn.join").on("click", handlerClickBtnJoin);
 		$(".btn.logout").on("click", handlerClickBtnLogout);
 		$(".btn.myinfo").on("click", handlerClickBtnMyInfo);
+		$(".btn.deleteComment").on("click", handlerClickBtnDeleteComment);
+		
+		function handlerClickBtnDeleteComment {
+			console.log("댓글삭제");
+			location.href="<%=request.getContextPath() %>/deletecomment?id=";
+		}
 		
 		function handlerClickBtnUpdate() {
 			console.log("게시글수정");
