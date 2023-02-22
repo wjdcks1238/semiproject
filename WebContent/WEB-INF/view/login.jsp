@@ -25,11 +25,6 @@
 		$(".btn.join").on("click", handlerClickBtnJoin);
 		$(".btn.login").on("click", handlerClickBtnLogin);
 		
-		function handlerClickBtnLogin() {
-			let id = $("#id").val();
-			alert(id+"님 환영합니다.");
-		}
-		
 		function handlerClickBtnJoin() {
 			console.log("로그인 -> 회원가입");
 			location.href="<%=request.getContextPath() %>/join";
