@@ -2,9 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section>
-	<span>${lgnss.getId() }</span>
+	<c:if test="${not empty lgnss }">	
+		<span>${lgnss.getId() }님 접속중</span>
+	</c:if>
 	<h1>자유게시판</h1>
-	<table>
+	<table border="1" style="text-align: center">
 		<tr>
 			<td>게시글번호</td>
 			<td>제목</td>
@@ -15,7 +17,7 @@
 		<c:forEach items="${boardlist }" var="vo" varStatus="s">
 			<tr>
 				<td>${vo.boardId }</td>
-				<td><a href="<%=request.getContextPath() %>/boardcontent?id=${vo.boardId }">${vo.title }</a></td>
+				<td><a href="<%=request.getContextPath() %>/boardcontent?id=${vo.boardId }" style="text-decoration: none">${vo.title }</a></td>
 				<td>${vo.boardUser }</td>
 				<td>${vo.submitDate }</td>
 				<td>${vo.readCount }</td>

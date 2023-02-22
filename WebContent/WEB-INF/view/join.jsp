@@ -26,7 +26,7 @@
 			email:<input type="email" name="email" id="email">
 			<br>
 			<button type="submit" disabled="disabled">회원가입하기</button>
-			<button type="reset">양식초기화</button>
+			<button type="reset" class="btn reset">양식초기화</button>
 			<button type="button" class="btn main">메인으로</button>
 		</form>
 	</section>
@@ -43,6 +43,17 @@
 		$("#passwd").on("input", invaildChkPasswd);
 		$("#chkPasswd").on("input", chkPasswd);
 		$("#email").on("input", chkEmail);
+		$(".btn.reset").on("click", handlerClickReset);
+		
+		function handlerClickReset() {
+			$("button[type=submit]").attr("disabled", "disabled");
+			$("#invaildResult").html("");
+			$("#invaildResult").css("color", "black");
+			$("#dupId").next().html("");
+			$("#dupId").next().css("color", "black");
+			$("#passwdChkResult").html("");
+			$("#passwdChkResult").css("color", "black");
+		}
 		
 		function chkName() {
 			let chkName = $("#name").val();

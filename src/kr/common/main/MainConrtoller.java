@@ -33,9 +33,9 @@ public class MainConrtoller extends HttpServlet {
 		int cnt = 0;
 		cnt = service.getCountBoard();
 		
-		int pageSize = 5;
+		int pageSize = 10;
 		
-		int pageBlock = 3;
+		int pageBlock = 5;
 		
 		int currentPage = 1;
 		
@@ -49,7 +49,9 @@ public class MainConrtoller extends HttpServlet {
 		int endRnum = 0;
 		
 		startRnum = ((currentPage -1) * pageSize) + 1;
-		endRnum = (startRnum + pageSize -1 > cnt)? startRnum + pageSize - 1 : cnt;
+		endRnum = (startRnum + pageSize -1 > cnt)? cnt : startRnum + pageSize - 1;
+		
+		System.out.println("시작 : " + startRnum +"끝 : " + endRnum);
 		request.setAttribute("boardlist", service.getBoardList(startRnum, endRnum));
 		
 		int startPageNum = 0;

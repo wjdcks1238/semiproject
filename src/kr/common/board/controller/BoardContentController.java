@@ -38,7 +38,7 @@ public class BoardContentController extends HttpServlet {
 		
 		BoardVo vo = new BoardVo();
 		
-		vo = new BoardService().getUpdateBoardContent(boardid);
+		vo = new BoardService().getBoardContent(boardid);
 		
 		System.out.println(vo);
 		

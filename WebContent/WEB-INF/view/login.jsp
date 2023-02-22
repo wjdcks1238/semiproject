@@ -17,7 +17,7 @@
 			<span>패스워드 : </span>
 			<input type="password" name="passwd">
 			<br>
-			<button type="submit" >로그인</button>
+			<button type="submit" class="btn login">로그인</button>
 			<button type="button" class="btn join">회원가입</button>
 		</form>
 	</section>

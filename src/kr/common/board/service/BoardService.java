@@ -70,7 +70,6 @@ public class BoardService {
 	public BoardVo getUpdateBoardContent(int boardid) {
 		BoardVo result = new BoardVo();
 		Connection con = getConnection();
-		
 		result = new BoardDao().getBoardContent(boardid, con);
 		
 		return result;
